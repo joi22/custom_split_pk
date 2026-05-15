@@ -1,0 +1,92 @@
+{% comment %}
+  QistBazaar Product Widget Block
+  Appears on the product page for eligible products only.
+  Add to your product template via the Theme Editor.
+{% endcomment %}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign qist_enabled = product.metafields.qistbazaar.enabled | default: false %}
+
+{% if qist_enabled == true or block.settings.force_show %}
+  <div
+    class="qistbazaar-widget"
+    data-product-id="{{ product.id }}"
+    data-variant-id="{{ current_variant.id }}"
+    data-title="{{ product.title | escape }}"
+    data-price="{{ current_variant.price | divided_by: 100 }}"
+    data-sku="{{ current_variant.sku | escape }}"
+    data-image="{{ product.featured_image | image_url: width: 500 }}"
+    {{ block.shopify_attributes }}
+  >
+    <div class="qistbazaar-inner">
+      {% if block.settings.logo != blank %}
+        <img
+          src="{{ block.settings.logo | image_url: width: 220 }}"
+          alt="QistBazaar"
+          width="220px"
+          height="auto"
+          class="qistbazaar-logo"
+        >
+      {% else %}
+        <div class="qistbazaar-brand">
+          <span class="qistbazaar-brand-icon">₨</span>
+          <span class="qistbazaar-brand-name">QistBazaar</span>
+        </div>
+      {% endif %}
+
+      <div class="qistbazaar-content">
+        <h3 class="qistbazaar-heading">{{ block.settings.heading }}</h3>
+        <p class="qistbazaar-message">{{ block.settings.message }}</p>
+      </div>
+
+      <button type="button" class="qistbazaar-buy-button" id="qistbazaar-btn-{{ product.id }}">
+        {{ block.settings.button_text }}
+      </button>
+
+      <p class="qistbazaar-no-sku-warning" style="display:none; color:#c0392b; font-size:13px; margin-top:8px;">
+        ⚠ This product is missing a SKU. Please contact the store for installment options.
+      </p>
+    </div>
+  </div>
+
+  {{ 'qistbazaar-widget.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'qistbazaar-widget.js' | asset_url }}" defer></script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "QistBazaar Installments",
+  "target": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Buy on Easy Installments with QistBazaar"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "QistBazaar Logo (optional)"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Buy with QistBazaar"
+    },
+    {
+      "type": "text",
+      "id": "message",
+      "label": "Sub-message",
+      "default": "0% markup plans available. QistBazaar is available in your city."
+    },
+    {
+      "type": "checkbox",
+      "id": "force_show",
+      "label": "Force show for testing (ignore metafield check)",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

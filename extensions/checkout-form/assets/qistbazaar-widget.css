@@ -1,0 +1,87 @@
+/* QistBazaar Product Widget Styles */
+
+.qistbazaar-widget {
+  margin: 24px 0;
+}
+
+.qistbazaar-inner {
+  border: 1.5px solid #d0eded;
+  border-radius: 14px;
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 0 2px 12px rgba(0, 128, 128, 0.06);
+}
+
+/* Brand / logo row */
+.qistbazaar-logo {
+  max-width: 180px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.qistbazaar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.qistbazaar-brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: #008080;
+  color: white;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.qistbazaar-brand-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #008080;
+  letter-spacing: -0.3px;
+}
+
+/* Content */
+.qistbazaar-heading {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111111;
+  margin: 0 0 6px;
+}
+
+.qistbazaar-message {
+  font-size: 13px;
+  color: #2d7a3a;
+  margin: 0 0 18px;
+  font-weight: 500;
+}
+
+/* Button */
+.qistbazaar-buy-button {
+  display: block;
+  width: 100%;
+  background: #111111;
+  color: #ffffff;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  letter-spacing: 0.2px;
+}
+
+.qistbazaar-buy-button:hover:not(:disabled) {
+  background: #333333;
+  transform: translateY(-1px);
+}
+
+.qistbazaar-buy-button:active {
+  transform: translateY(0);
+}
