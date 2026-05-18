@@ -26,6 +26,7 @@ async function loginToQistBazaar() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
+      userName: process.env.QIST_USERNAME,
       email: process.env.QIST_USERNAME,
       password: process.env.QIST_PASSWORD,
     }),

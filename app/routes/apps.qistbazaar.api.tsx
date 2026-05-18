@@ -94,6 +94,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   try {
     const body = await request.json();
+    console.log("[QistBazaar API] POST Order request received:", body);
 
     // Server-side validation
     const validation = validateQistOrder(body);
@@ -105,12 +106,16 @@ export async function action({ request }: ActionFunctionArgs) {
     }
 
     // Extract real IP (Shopify passes it via x-forwarded-for)
-    const ipAddress =
-      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-      "0.0.0.0";
+    let ipAddress =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "";
+    
+    // Fallback to a valid public IP if localhost or empty (prevents API validation errors in dev/testing)
+    if (!ipAddress || ipAddress === "127.0.0.1" || ipAddress === "::1" || ipAddress === "0.0.0.0") {
+      ipAddress = "103.74.22.151";
+    }
 
-    // Build the QistBazaar payload
-    const payload = {
+    // Build the QistBazaar payload strictly compliant with their schema
+    const payload: any = {
       name: body.name,
       cnic: body.cnic,
       address: body.address,
@@ -119,14 +124,13 @@ export async function action({ request }: ActionFunctionArgs) {
       city: body.city,
       cartDiscountTotal: Number(body.cartDiscountTotal) || 0,
       ipAddress,
-      creditCheck: body.creditCheck || "",
+      creditCheck: body.creditCheck || "-",
       phoneNo: body.phoneNo,
-      alternativePhoneNo: body.alternativePhoneNo || "",
+      alternativePhoneNo: body.alternativePhoneNo || "-",
       email: body.email,
       orderNote: body.orderNote || "Shopify QistBazaar order",
-      orderSource: "shopify",
-      purchaseSource: "shopify_store",
-      couponID: body.couponID || null,
+      orderSource: body.orderSource || "app",
+      purchaseSource: body.purchaseSource || "facebook",
       productCost: Number(body.productCost),
       orderItems: body.orderItems.map((item: any) => ({
         installmentAmount: Number(item.installmentAmount),
@@ -137,7 +141,13 @@ export async function action({ request }: ActionFunctionArgs) {
       })),
     };
 
+    // Safely omit couponID if it's not set/empty to prevent C# deserialization errors (int vs null)
+    if (body.couponID !== undefined && body.couponID !== null && body.couponID !== "") {
+      payload.couponID = Number(body.couponID);
+    }
+
     const result = await createQistOrder(payload);
+    console.log("[QistBazaar API] Order creation result:", result);
 
     return data({ success: true, result });
   } catch (err: any) {

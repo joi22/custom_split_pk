@@ -6,8 +6,14 @@
 
 {% assign current_variant = product.selected_or_first_available_variant %}
 {% assign qist_enabled = product.metafields.qistbazaar.enabled | default: false %}
+{% assign is_available = current_variant.available %}
 
-{% if qist_enabled == true or block.settings.force_show %}
+{% comment %} 
+  If product/variant is out of stock, do not allow installment.
+  force_show is only for testing.
+{% endcomment %}
+
+{% if block.settings.force_show or qist_enabled == true and is_available == true %}
   <div
     class="qistbazaar-widget"
     data-product-id="{{ product.id }}"
@@ -16,6 +22,7 @@
     data-price="{{ current_variant.price | divided_by: 100 }}"
     data-sku="{{ current_variant.sku | escape }}"
     data-image="{{ product.featured_image | image_url: width: 500 }}"
+    data-handle="{{ product.handle }}"
     {{ block.shopify_attributes }}
   >
     <div class="qistbazaar-inner">

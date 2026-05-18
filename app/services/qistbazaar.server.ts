@@ -21,26 +21,29 @@ function getBaseUrl(): string {
  */
 async function loginToQistBazaar(): Promise<string> {
   const url = `${getBaseUrl()}/user/login`;
-
+  console.log(`[QistBazaar] Attempting login to: ${url}`);
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       userName: process.env.QIST_USERNAME,
+      email: process.env.QIST_USERNAME,
       password: process.env.QIST_PASSWORD,
     }),
   });
 
   const data = await response.json();
+  console.log(`[QistBazaar] Login response status: ${response.status}`, data);
 
-  if (!response.ok || !data.token) {
+  if (!response.ok || !data.token || data.success === false) {
     throw new Error(
-      `QistBazaar login failed: ${data?.message || response.statusText}`
+      `QistBazaar login failed: ${data?.message || data?.error || response.statusText}`
     );
   }
 
   cachedToken = data.token;
   tokenCreatedAt = Date.now();
+  console.log("[QistBazaar] Login successful, token cached.");
 
   return cachedToken as string;
 }
@@ -62,6 +65,8 @@ async function getToken(): Promise<string> {
  */
 async function qistRequest(path: string, options: RequestInit = {}, retry = true): Promise<any> {
   const token = await getToken();
+  console.log(`[QistBazaar] ${options.method || "GET"} Request to: ${path}`);
+  if (options.body) console.log("[QistBazaar] Request Body:", options.body);
 
   const response = await fetch(`${getBaseUrl()}${path}`, {
     ...options,
@@ -74,16 +79,27 @@ async function qistRequest(path: string, options: RequestInit = {}, retry = true
 
   // Token expired — invalidate cache and retry once
   if (response.status === 401 && retry) {
+    console.warn("[QistBazaar] 401 Unauthorized - invalidating token and retrying...");
     cachedToken = null;
     await loginToQistBazaar();
     return qistRequest(path, options, false);
   }
 
   const data = await response.json().catch(() => null);
+  console.log(`[QistBazaar] Response from ${path} (${response.status}):`, data);
 
-  if (!response.ok) {
+  // Handle case where status is 200 but the body contains a QB-401 error code
+  const internalError = data?.result?.statusCode || data?.statusCode;
+  if (internalError === "QB-401" && retry) {
+    console.warn("[QistBazaar] Internal QB-401 detected - invalidating token and retrying...");
+    cachedToken = null;
+    await loginToQistBazaar();
+    return qistRequest(path, options, false);
+  }
+
+  if (!response.ok || data?.success === false || internalError === "QB-401") {
     throw new Error(
-      data?.message || `QistBazaar API error ${response.status} on ${path}`
+      data?.message || data?.result?.message || `QistBazaar API error ${response.status} on ${path}`
     );
   }
 
