@@ -2,7 +2,7 @@
 
 client_id = "f8a6f0327327a0a8a88f93907e2e26d8"
 name = "startstorez-announcement-bar"
-application_url = "https://example.com"
+application_url = "https://gear-specialist-southwest-bikini.trycloudflare.com"
 embedded = true
 
 [build]
@@ -25,10 +25,10 @@ api_version = "2026-07"
 scopes = "write_products,write_metaobjects,write_metaobject_definitions"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [ "https://gear-specialist-southwest-bikini.trycloudflare.com/api/auth" ]
 
 [app_proxy]
-url = "https://example.com/apps/qistbazaar"
+url = "https://gear-specialist-southwest-bikini.trycloudflare.com/apps/qistbazaar"
 subpath = "qistbazaar"
 prefix = "apps"
 

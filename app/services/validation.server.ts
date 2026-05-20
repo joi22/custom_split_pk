@@ -19,8 +19,7 @@ interface OrderInput {
   cnic: string;
   address: string;
   city: string;
-  area: string;
-  areaID: number | string;
+  area?: string;
   productCost: number | string;
   orderItems: OrderItem[];
 }
@@ -37,6 +36,13 @@ interface ValidationResult {
  */
 export function validateQistOrder(input: OrderInput): ValidationResult {
   const errors: Record<string, string> = {};
+
+  if (!input) {
+    return {
+      valid: false,
+      errors: { _global: "Invalid request payload." }
+    };
+  }
 
   // Name
   if (!input.name || input.name.trim().length < 3) {
@@ -76,16 +82,6 @@ export function validateQistOrder(input: OrderInput): ValidationResult {
   // City
   if (!input.city || input.city.trim() === "") {
     errors.city = "City is required.";
-  }
-
-  // Area name
-  if (!input.area || input.area.trim() === "") {
-    errors.area = "Area is required.";
-  }
-
-  // Area ID
-  if (!input.areaID || Number(input.areaID) <= 0) {
-    errors.areaID = "Valid area selection is required.";
   }
 
   // Product cost

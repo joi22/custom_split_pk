@@ -1,164 +1,433 @@
 <style>
+:root {
+  --qb-primary: #008080;
+  --qb-primary-dark: #006666;
+  --qb-primary-light: #e6f5f5;
+  --qb-text: #1f2937;
+  --qb-muted: #6b7280;
+  --qb-border: #e5e7eb;
+  --qb-border-focus: #008080;
+  --qb-bg: #f7f9fc;
+  --qb-card: #ffffff;
+  --qb-error: #dc2626;
+  --qb-error-bg: #fef2f2;
+  --qb-success: #059669;
+  --qb-success-bg: #ecfdf5;
+  --qb-radius: 10px;
+  --qb-radius-sm: 8px;
+}
+
 .qist-page-wrap {
   display: flex;
   justify-content: center;
-  padding: 40px 16px;
+  padding: 40px 16px 60px;
   min-height: 80vh;
-  background: #f5f7fa;
+  background: var(--qb-bg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--qb-text);
+  line-height: 1.5;
 }
+
 #qistbazaar-cart-container {
-  max-width: 700px;
+  max-width: 720px;
   width: 100%;
-  padding: 30px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  background: var(--qb-card);
+  border-radius: var(--qb-radius);
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+  overflow: hidden;
 }
-#qistbazaar-cart-container h2 {
+
+.qist-header {
+  background: linear-gradient(135deg, var(--qb-primary) 0%, var(--qb-primary-dark) 100%);
+  color: #fff;
+  padding: 28px 32px;
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 36px;
 }
-#productDetails {
-  text-align: center;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.qist-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
-#productDetails img { max-width: 200px; margin-top: 10px; border-radius: 6px; }
-#qistbazaar-cart-container h3 { margin-bottom: 15px; margin-top: 20px; }
-#qistbazaar-cart-container input[type="text"],
-#qistbazaar-cart-container input[type="email"],
-#qistbazaar-cart-container select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-  box-sizing: border-box;
-}
-.qist-error {
-  color: red;
-  display: none;
-  margin-top: 0;
+.qist-header p {
+  margin: 6px 0 0;
   font-size: 13px;
+  opacity: 0.9;
+}
+
+.qist-body { padding: 28px 32px; }
+
+#productDetails {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  background: var(--qb-bg);
+  border: 1px solid var(--qb-border);
+  border-radius: var(--qb-radius-sm);
+  margin-bottom: 24px;
+}
+#productDetails .qist-product-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--qb-border);
+  background: #fff;
+  flex-shrink: 0;
+}
+#productDetails .qist-product-info { flex: 1; min-width: 0; }
+#productDetails .qist-product-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--qb-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+#productDetails .qist-product-price {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--qb-primary);
+  margin: 0;
+}
+#productDetails .qist-product-loading {
+  width: 100%;
+  text-align: center;
+  color: var(--qb-muted);
+  font-size: 14px;
+  margin: 0;
+}
+
+.qist-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--qb-muted);
+  margin: 28px 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--qb-border);
+}
+.qist-section-title:first-of-type { margin-top: 8px; }
+
+.qist-field { margin-bottom: 16px; }
+.qist-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 520px) {
+  .qist-row { grid-template-columns: 1fr; gap: 0; }
+}
+
+.qist-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--qb-text);
   margin-bottom: 6px;
 }
+.qist-label .qist-optional {
+  font-weight: 400;
+  color: var(--qb-muted);
+  font-size: 12px;
+}
+
+#qistbazaar-cart-container input[type="text"],
+#qistbazaar-cart-container input[type="email"],
+#qistbazaar-cart-container input[type="tel"],
+#qistbazaar-cart-container select {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--qb-border);
+  border-radius: var(--qb-radius-sm);
+  font-size: 14px;
+  background: #fff;
+  color: var(--qb-text);
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: inherit;
+}
+#qistbazaar-cart-container input::placeholder { color: #9ca3af; }
+#qistbazaar-cart-container input:focus,
+#qistbazaar-cart-container select:focus {
+  outline: none;
+  border-color: var(--qb-border-focus);
+  box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.12);
+}
+#qistbazaar-cart-container input.qist-invalid,
+#qistbazaar-cart-container select.qist-invalid {
+  border-color: var(--qb-error);
+}
+#qistbazaar-cart-container input.qist-invalid:focus,
+#qistbazaar-cart-container select.qist-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+.qist-error {
+  color: var(--qb-error);
+  display: none;
+  font-size: 12px;
+  margin: 6px 0 0;
+}
+
+.qist-help {
+  font-size: 12px;
+  color: var(--qb-muted);
+  margin: 6px 0 0;
+}
+
+#bnplPlansContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 4px;
+}
 .emi-plan-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  position: relative;
+  border: 1.5px solid var(--qb-border);
+  border-radius: var(--qb-radius-sm);
   padding: 14px 16px;
   cursor: pointer;
-  flex: 1 1 calc(50% - 10px);
-  min-width: 140px;
-  transition: border-color 0.2s, background 0.2s;
+  background: #fff;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
 }
-.emi-plan-card:hover { border-color: #008080; }
+.emi-plan-card:hover {
+  border-color: var(--qb-primary);
+  transform: translateY(-1px);
+}
 .emi-plan-card.selected {
-  border: 2px solid #008080;
-  background: #f0fafa;
+  border-color: var(--qb-primary);
+  background: var(--qb-primary-light);
+  box-shadow: 0 0 0 1px var(--qb-primary) inset;
 }
-.emi-plan-card h4 { margin: 0 0 6px; font-size: 15px; color: #008080; }
-.emi-plan-card p { margin: 2px 0; font-size: 13px; }
-#bnplPlansContainer {
+.emi-plan-card .qb-plan-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--qb-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 6px;
+}
+.emi-plan-card .qb-plan-amount {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--qb-text);
+  margin: 0 0 4px;
+}
+.emi-plan-card .qb-plan-amount span {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--qb-muted);
+}
+.emi-plan-card .qb-plan-meta {
+  font-size: 12px;
+  color: var(--qb-muted);
+  margin: 2px 0 0;
+}
+.emi-plan-card .qb-plan-advance {
+  font-size: 12px;
+  color: #b45309;
+  margin: 4px 0 0;
+  font-weight: 500;
+}
+.qist-plans-loading {
+  grid-column: 1 / -1;
+  color: var(--qb-muted);
+  font-size: 14px;
+  text-align: center;
+  padding: 16px;
+  margin: 0;
+}
+
+.qist-summary {
+  background: var(--qb-bg);
+  border: 1px solid var(--qb-border);
+  border-radius: var(--qb-radius-sm);
+  padding: 14px 16px;
+  margin: 20px 0 0;
+  display: none;
+}
+.qist-summary.active { display: block; }
+.qist-summary-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 5px;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--qb-muted);
+  padding: 4px 0;
 }
+.qist-summary-row.qist-summary-total {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--qb-text);
+  border-top: 1px dashed var(--qb-border);
+  margin-top: 6px;
+  padding-top: 10px;
+}
+
 #proceedToCheckout {
-  background: #008080;
-  color: white;
-  padding: 12px;
+  background: var(--qb-primary);
+  color: #fff;
+  padding: 14px 16px;
   width: 100%;
-  font-size: 18px;
-  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: var(--qb-radius-sm);
   border: none;
   cursor: pointer;
-  opacity: 0.5;
-  margin-top: 20px;
+  margin-top: 24px;
+  transition: background 0.15s, transform 0.05s;
+  font-family: inherit;
 }
-#proceedToCheckout:not(:disabled) { opacity: 1; }
+#proceedToCheckout:not(:disabled):hover { background: var(--qb-primary-dark); }
+#proceedToCheckout:not(:disabled):active { transform: translateY(1px); }
+#proceedToCheckout:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
 #qist-success-msg {
   display: none;
-  background: #e6f7f0;
-  border: 1px solid #008040;
-  border-radius: 8px;
-  padding: 20px;
+  background: var(--qb-success-bg);
+  border: 1px solid #a7f3d0;
+  border-radius: var(--qb-radius-sm);
+  padding: 24px;
   text-align: center;
-  margin-top: 20px;
+  margin: 28px 32px;
 }
-#qist-success-msg h3 { color: #008040; margin-bottom: 10px; }
+#qist-success-msg h3 {
+  color: var(--qb-success);
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+#qist-success-msg p { margin: 4px 0; font-size: 14px; color: var(--qb-text); }
+
 #qist-error-msg {
   display: none;
-  background: #fdecea;
-  border: 1px solid #c0392b;
-  border-radius: 8px;
-  padding: 16px;
-  text-align: center;
-  color: #c0392b;
+  background: var(--qb-error-bg);
+  border: 1px solid #fecaca;
+  border-radius: var(--qb-radius-sm);
+  padding: 12px 14px;
+  color: var(--qb-error);
+  font-size: 13px;
   margin-top: 16px;
 }
+
+.qist-secure-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--qb-muted);
+  margin-top: 14px;
+}
+.qist-secure-note svg { flex-shrink: 0; }
 </style>
 
 <div class="qist-page-wrap">
   <div id="qistbazaar-cart-container">
-    <h2>QistBazaar Cart</h2>
-
-    <div id="productDetails">
-      <p style="color:#888;">Loading product…</p>
+    <div class="qist-header">
+      <h2>Buy Now, Pay Later</h2>
+      <p>Complete your installment order with QistBazaar</p>
     </div>
 
-    <div id="qist-form-body">
-      <h3>Customer Information</h3>
-
-      <input type="text" id="customer-name" placeholder="Full Name">
-      <p class="qist-error" id="name-error">* Name is required.</p>
-
-      <input type="email" id="customer-email" placeholder="Email Address">
-      <p class="qist-error" id="email-error">* Valid email is required.</p>
-
-      <input type="text" id="customer-phone" placeholder="03XXXXXXXXX" maxlength="11">
-      <p class="qist-error" id="phone-error">* Phone must start with "03" and be exactly 11 digits.</p>
-
-      <input type="text" id="customer-alt-phone" placeholder="Alternative Phone (optional)" maxlength="11">
-      <p class="qist-error" id="alt-phone-error">* Alternative phone must start with "03" and be exactly 11 digits.</p>
-
-      <input type="text" id="customer-address" placeholder="Address (minimum 10 characters)">
-      <p class="qist-error" id="address-error">* Address is required (min 10 characters).</p>
-
-      <label for="customer-city" style="display:block; margin-top:10px;">City:</label>
-      <select id="customer-city">
-        <option value="">Loading cities…</option>
-      </select>
-      <p class="qist-error" id="city-error">* Please select a city.</p>
-
-      <label for="customer-area" style="display:block; margin-top:10px;">Area:</label>
-      <select id="customer-area">
-        <option value="">Select a city first</option>
-      </select>
-      <p class="qist-error" id="area-error">* Please select an area.</p>
-
-      <label for="cnic-input" style="display:block; margin-top:10px;">CNIC (13 digits without dashes):</label>
-      <input type="text" id="cnic-input" placeholder="4220112345678" maxlength="13">
-      <p class="qist-error" id="cnic-error">* CNIC must be exactly 13 digits.</p>
-
-      <label style="display:block; margin-top:16px; font-weight:600;">Select EMI Plan:</label>
-      <div id="bnplPlansContainer">
-        <p style="color:#888; font-size:14px;">Loading plans…</p>
+    <div class="qist-body">
+      <div id="productDetails">
+        <p class="qist-product-loading">Loading product…</p>
       </div>
-      <p class="qist-error" id="plan-error">* Please select an EMI plan.</p>
 
-      <div id="qist-error-msg"></div>
+      <div id="qist-form-body">
+        <div class="qist-section-title">Customer Information</div>
 
-      <button id="proceedToCheckout" disabled>
-        Proceed to Checkout
-      </button>
+        <div class="qist-field">
+          <label class="qist-label" for="customer-name">Full Name</label>
+          <input type="text" id="customer-name" placeholder="Enter your full name" autocomplete="name">
+          <p class="qist-error" id="name-error">Name is required (min 3 characters).</p>
+        </div>
+
+        <div class="qist-field">
+          <label class="qist-label" for="customer-email">Email Address</label>
+          <input type="email" id="customer-email" placeholder="you@example.com" autocomplete="email">
+          <p class="qist-error" id="email-error">Please enter a valid email address.</p>
+        </div>
+
+        <div class="qist-row">
+          <div class="qist-field">
+            <label class="qist-label" for="customer-phone">Phone Number</label>
+            <input type="tel" id="customer-phone" placeholder="03XXXXXXXXX" maxlength="11" inputmode="numeric" autocomplete="tel">
+            <p class="qist-error" id="phone-error">Phone must start with 03 and be 11 digits.</p>
+          </div>
+          <div class="qist-field">
+            <label class="qist-label" for="customer-alt-phone">Alternative Phone <span class="qist-optional">(optional)</span></label>
+            <input type="tel" id="customer-alt-phone" placeholder="03XXXXXXXXX" maxlength="11" inputmode="numeric">
+            <p class="qist-error" id="alt-phone-error">Alt phone must start with 03 and be 11 digits.</p>
+          </div>
+        </div>
+
+        <div class="qist-field">
+          <label class="qist-label" for="cnic-input">CNIC <span class="qist-optional">(13 digits, no dashes)</span></label>
+          <input type="text" id="cnic-input" placeholder="4220112345678" maxlength="13" inputmode="numeric">
+          <p class="qist-error" id="cnic-error">CNIC must be exactly 13 digits.</p>
+        </div>
+
+        <div class="qist-section-title">Delivery Address</div>
+
+        <div class="qist-field">
+          <label class="qist-label" for="customer-address">Street Address</label>
+          <input type="text" id="customer-address" placeholder="House #, Street, Block / Sector" autocomplete="street-address">
+          <p class="qist-error" id="address-error">Address must be at least 10 characters.</p>
+        </div>
+
+        <div class="qist-row">
+          <div class="qist-field">
+            <label class="qist-label" for="customer-city">City</label>
+            <select id="customer-city">
+              <option value="">Loading cities…</option>
+            </select>
+            <p class="qist-error" id="city-error">Please select a city.</p>
+          </div>
+          <div class="qist-field">
+            <label class="qist-label" for="customer-area">Area <span class="qist-optional">(optional)</span></label>
+            <select id="customer-area">
+              <option value="">Select a city first</option>
+            </select>
+            <p class="qist-error" id="area-error">Please select an area.</p>
+          </div>
+        </div>
+
+        <div class="qist-section-title">Choose Your Installment Plan</div>
+
+        <div id="bnplPlansContainer">
+          <p class="qist-plans-loading">Loading installment plans…</p>
+        </div>
+        <p class="qist-error" id="plan-error">Please select an EMI plan to continue.</p>
+
+        <div class="qist-summary" id="qist-summary">
+          <div class="qist-summary-row"><span>Monthly installment</span><strong id="qist-sum-monthly">—</strong></div>
+          <div class="qist-summary-row"><span>Advance payment</span><strong id="qist-sum-advance">—</strong></div>
+          <div class="qist-summary-row"><span>Tenure</span><strong id="qist-sum-tenure">—</strong></div>
+          <div class="qist-summary-row qist-summary-total"><span>Total payable</span><strong id="qist-sum-total">—</strong></div>
+        </div>
+
+        <div id="qist-error-msg"></div>
+
+        <button id="proceedToCheckout" disabled>
+          Proceed to Checkout
+        </button>
+
+        <div class="qist-secure-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Your information is secure and encrypted</span>
+        </div>
+      </div>
+
+      <div id="qist-success-msg"></div>
     </div>
-
-    <div id="qist-success-msg"></div>
   </div>
 </div>
 
@@ -178,38 +447,75 @@
     if (raw) productData = JSON.parse(raw);
   } catch (e) {}
 
+  function escapeHtml(str) {
+    return String(str == null ? "" : str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function formatPKR(n) {
+    return "Rs. " + Number(n || 0).toLocaleString();
+  }
+
   function renderProduct() {
     var el = document.getElementById("productDetails");
     if (productData) {
+      var title = escapeHtml(productData.title);
+      var img = productData.image
+        ? '<img class="qist-product-img" src="' + escapeHtml(productData.image) + '" alt="' + title + '">'
+        : '';
       el.innerHTML =
-        "<strong>" + productData.title + "</strong>" +
-        "<p>Price: Rs. " + Number(productData.price).toLocaleString() + "</p>" +
-        (productData.image ? '<img src="' + productData.image + '" alt="' + productData.title + '">' : "");
+        img +
+        '<div class="qist-product-info">' +
+          '<p class="qist-product-title">' + title + '</p>' +
+          '<p class="qist-product-price">' + formatPKR(productData.price) + '</p>' +
+        '</div>';
     } else {
-      el.innerHTML = "<p style='color:#c0392b;'>⚠ Product data not found. Please go back and click \"Buy with QistBazaar\" again.</p>";
+      el.innerHTML = '<p class="qist-product-loading" style="color:#dc2626;">Product data not found. Please return to the product page and click "Buy with QistBazaar" again.</p>';
     }
   }
 
   // ── Secure fetch helpers (calls your backend only) ─────────────────────
   function get(action, extra) {
     var url = PROXY + "?action=" + action + (extra ? "&" + extra : "");
-    return fetch(url).then(function (r) { return r.json(); });
+    return fetch(url).then(function (r) {
+      return r.json().then(function (body) {
+        if (!r.ok) {
+          return {
+            success: false,
+            error: (body && (body.error || body.message)) || ("Request failed (" + r.status + ")")
+          };
+        }
+        return body;
+      });
+    });
   }
 
   // ── Load cities ────────────────────────────────────────────────────────
   function loadCities() {
     get("cities").then(function (res) {
       var cityEl = document.getElementById("customer-city");
-      if (res.success && res.data && res.data.data) {
+      var list = [];
+      if (res.success) {
+        if (Array.isArray(res.data)) {
+          list = res.data;
+        } else if (res.data && Array.isArray(res.data.data)) {
+          list = res.data.data;
+        }
+      }
+      if (list.length > 0) {
         var allowed = ["Karachi", "Hyderabad", "Lahore", "Islamabad", "Rawalpindi"];
         cityEl.innerHTML = '<option value="">Select City</option>' +
-          res.data.data
-            .filter(function (c) { return allowed.includes(c.cityName); })
+          list
+            .filter(function (c) { return c && allowed.includes(c.cityName); })
             .map(function (c) {
-              return '<option value="' + c.cityID + '" data-name="' + c.cityName + '">' + c.cityName + '</option>';
+              return '<option value="' + c.cityID + '" data-name="' + escapeHtml(c.cityName) + '">' + escapeHtml(c.cityName) + '</option>';
             }).join("");
       } else {
-        cityEl.innerHTML = '<option value="">Error loading cities</option>';
+        cityEl.innerHTML = '<option value="">' + (res.error || "Error loading cities") + '</option>';
       }
     }).catch(function () {
       document.getElementById("customer-city").innerHTML = '<option value="">Failed to load cities</option>';
@@ -223,7 +529,7 @@
     get("areas", "cityName=" + encodeURIComponent(cityName)).then(function (res) {
       if (res.success && Array.isArray(res.data) && res.data.length > 0) {
         areaEl.innerHTML = '<option value="">Select Area</option>' +
-          res.data.map(function (a) {
+          res.data.filter(function (a) { return a && a.areaID; }).map(function (a) {
             return '<option value="' + a.areaID + '" data-name="' + a.areaName + '">' + a.areaName + '</option>';
           }).join("");
       } else {
@@ -233,72 +539,128 @@
     });
   }
 
-  // ── Load EMI plans ─────────────────────────────────────────────────────
+  function updateSummary(plan) {
+    var summary = document.getElementById("qist-summary");
+    if (!plan) {
+      summary.classList.remove("active");
+      return;
+    }
+    var inst = Number(plan.amountPerMonth) || 0;
+    var adv = Number(plan.advanceAmount) || 0;
+    var mths = Number(plan.noOfMonths) || 0;
+    var total = (inst * mths) + adv;
+
+    document.getElementById("qist-sum-monthly").textContent = formatPKR(inst);
+    document.getElementById("qist-sum-advance").textContent = formatPKR(adv);
+    document.getElementById("qist-sum-tenure").textContent = mths + " months";
+    document.getElementById("qist-sum-total").textContent = formatPKR(total);
+    summary.classList.add("active");
+  }
+
   function loadEmi(cost) {
     var container = document.getElementById("bnplPlansContainer");
-    container.innerHTML = '<p style="color:#888; font-size:14px;">Loading plans…</p>';
-    get("emi", "productCost=" + encodeURIComponent(cost)).then(function (res) {
+    container.innerHTML = '<p class="qist-plans-loading">Loading installment plans…</p>';
+    var roundedCost = Math.round(Number(cost) || 0);
+    if (roundedCost <= 0) {
+      container.innerHTML = '<p class="qist-plans-loading" style="color:#dc2626;">Invalid product price.</p>';
+      return;
+    }
+    get("emi", "productCost=" + encodeURIComponent(roundedCost)).then(function (res) {
       if (res.success && Array.isArray(res.data) && res.data.length > 0) {
         container.innerHTML = "";
         res.data.forEach(function (plan, i) {
           var card = document.createElement("div");
           card.className = "emi-plan-card";
-          card.setAttribute("data-plan", JSON.stringify(plan));
+          card.setAttribute("role", "button");
+          card.setAttribute("tabindex", "0");
           card.innerHTML =
-            "<h4>Plan " + (i + 1) + "</h4>" +
-            "<p>Rs. " + Number(plan.amountPerMonth).toLocaleString() + " x " + plan.noOfMonths + " months</p>" +
-            "<p>Rs. " + Number(plan.advanceAmount).toLocaleString() + " <span style='color:red;'>Upfront Payment</span></p>" +
-            "<p style='font-size:11px;color:#888;'>Total: Rs. " + Number(plan.totalPrice).toLocaleString() + "</p>";
-          card.addEventListener("click", function () {
+            '<p class="qb-plan-tag">Plan ' + (i + 1) + '</p>' +
+            '<p class="qb-plan-amount">' + formatPKR(plan.amountPerMonth) + ' <span>/ month</span></p>' +
+            '<p class="qb-plan-meta">' + plan.noOfMonths + ' months &middot; Total ' + formatPKR(plan.totalPrice) + '</p>' +
+            '<p class="qb-plan-advance">Advance: ' + formatPKR(plan.advanceAmount) + '</p>';
+          var selectPlan = function () {
             document.querySelectorAll(".emi-plan-card").forEach(function (c) { c.classList.remove("selected"); });
             card.classList.add("selected");
             selectedPlanData = plan;
             document.getElementById("plan-error").style.display = "none";
+            updateSummary(plan);
             validateForm();
+          };
+          card.addEventListener("click", selectPlan);
+          card.addEventListener("keydown", function (ev) {
+            if (ev.key === "Enter" || ev.key === " ") {
+              ev.preventDefault();
+              selectPlan();
+            }
           });
           container.appendChild(card);
         });
       } else {
-        container.innerHTML = '<p style="color:#c0392b;">Could not load EMI plans. Please try again.</p>';
+        container.innerHTML = '<p class="qist-plans-loading" style="color:#dc2626;">' +
+          escapeHtml(res.error || "Could not load installment plans. Please try again.") + '</p>';
       }
+    }).catch(function () {
+      container.innerHTML = '<p class="qist-plans-loading" style="color:#dc2626;">Failed to load installment plans.</p>';
     });
   }
 
-  // ── Validation ─────────────────────────────────────────────────────────
   function show(id, visible) {
-    document.getElementById(id).style.display = visible ? "block" : "none";
+    var el = document.getElementById(id);
+    if (el) el.style.display = visible ? "block" : "none";
+  }
+
+  function markField(id, invalid) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (invalid) el.classList.add("qist-invalid");
+    else el.classList.remove("qist-invalid");
   }
 
   function validateForm() {
-    var name    = document.getElementById("customer-name").value.trim();
-    var email   = document.getElementById("customer-email").value.trim();
-    var phone   = document.getElementById("customer-phone").value.trim();
-    var altPhone = document.getElementById("customer-alt-phone").value.trim();
-    var address = document.getElementById("customer-address").value.trim();
-    var city    = document.getElementById("customer-city").value;
-    var area    = document.getElementById("customer-area").value;
-    var cnic    = document.getElementById("cnic-input").value.trim();
+    var nameEl = document.getElementById("customer-name");
+    var emailEl = document.getElementById("customer-email");
+    var phoneEl = document.getElementById("customer-phone");
+    var altPhoneEl = document.getElementById("customer-alt-phone");
+    var addressEl = document.getElementById("customer-address");
+    var cnicEl = document.getElementById("cnic-input");
 
-    var emailOk   = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    var phoneOk   = /^03\d{9}$/.test(phone);
+    var name = nameEl.value.trim();
+    var email = emailEl.value.trim();
+    var phone = phoneEl.value.trim();
+    var altPhone = altPhoneEl.value.trim();
+    var address = addressEl.value.trim();
+    var city = document.getElementById("customer-city").value;
+    var cnic = cnicEl.value.trim();
+
+    var nameOk = name.length >= 3;
+    var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    var phoneOk = /^03\d{9}$/.test(phone);
     var altPhoneOk = !altPhone || /^03\d{9}$/.test(altPhone);
     var addressOk = address.length >= 10;
-    var cnicOk    = /^\d{13}$/.test(cnic);
-    var planOk    = !!selectedPlanData;
+    var cnicOk = /^\d{13}$/.test(cnic);
+    var cityOk = !!city;
+    var planOk = !!selectedPlanData;
 
-    show("name-error",     !name);
-    show("email-error",    !emailOk);
-    show("phone-error",    !phoneOk);
+    show("name-error", !nameOk);
+    show("email-error", !emailOk);
+    show("phone-error", !phoneOk);
     show("alt-phone-error", !altPhoneOk);
-    show("address-error",  !addressOk);
-    show("city-error",     !city);
-    show("area-error",     !area);
-    show("cnic-error",     !cnicOk);
-    show("plan-error",     !planOk);
+    show("address-error", !addressOk);
+    show("city-error", !cityOk);
+    show("area-error", false);
+    show("cnic-error", !cnicOk);
+    show("plan-error", !planOk);
 
-    var allOk = name && emailOk && phoneOk && altPhoneOk && addressOk && city && area && cnicOk && planOk;
-    var btn = document.getElementById("proceedToCheckout");
-    btn.disabled = !allOk;
+    markField("customer-name", !nameOk && name.length > 0);
+    markField("customer-email", !emailOk && email.length > 0);
+    markField("customer-phone", !phoneOk && phone.length > 0);
+    markField("customer-alt-phone", !altPhoneOk);
+    markField("customer-address", !addressOk && address.length > 0);
+    markField("customer-city", !cityOk && city !== "");
+    markField("cnic-input", !cnicOk && cnic.length > 0);
+
+    var allOk = nameOk && emailOk && phoneOk && altPhoneOk && addressOk && cityOk && cnicOk && planOk;
+    document.getElementById("proceedToCheckout").disabled = !allOk;
 
     return allOk;
   }
@@ -309,38 +671,50 @@
 
     var btn = document.getElementById("proceedToCheckout");
     btn.disabled = true;
-    btn.textContent = "Submitting…";
+    btn.textContent = "Submitting your order…";
+    var errEl = document.getElementById("qist-error-msg");
+    errEl.style.display = "none";
 
     var cityEl  = document.getElementById("customer-city");
     var areaEl  = document.getElementById("customer-area");
     var cityName = cityEl.options[cityEl.selectedIndex].text;
-    var areaName = areaEl.options[areaEl.selectedIndex].text;
+    var areaName = areaEl.value
+      ? areaEl.options[areaEl.selectedIndex].text
+      : "";
+
+    var inst = Number(selectedPlanData.amountPerMonth) || 0;
+    var adv  = Number(selectedPlanData.advanceAmount) || 0;
+    var mths = Number(selectedPlanData.noOfMonths) || 0;
+    var cartTotal = ((inst * mths) + adv).toFixed(2);
 
     var payload = {
       name:               document.getElementById("customer-name").value.trim(),
       email:              document.getElementById("customer-email").value.trim(),
       phoneNo:            document.getElementById("customer-phone").value.trim(),
-      alternativePhoneNo: document.getElementById("customer-alt-phone").value.trim(),
+      alternativePhoneNo: document.getElementById("customer-alt-phone").value.trim() || "",
       cnic:               document.getElementById("cnic-input").value.trim(),
       address:            document.getElementById("customer-address").value.trim(),
       city:               cityName,
-      area:               areaName,
-      areaID:             Number(areaEl.value),
-      productCost:        Number(productData.price),
-      cartDiscountTotal:  0,
-      orderNote:          "Shopify QistBazaar order",
-      orderSource:        "shopify",
-      purchaseSource:     "shopify_store",
-      couponID:           null,
+      productCost:        String(productData.price),
+      cartDiscountTotal:  "0.00",
+      cartTotal:          cartTotal,
+      orderStatus:        "pending",
+      orderNote:          "",
+      orderSource:        "app",
+      purchaseSource:     "facebook",
+      couponID:           "",
       orderItems: [{
-        installmentAmount: Number(selectedPlanData.amountPerMonth),
-        advanceAmount:     Number(selectedPlanData.advanceAmount),
+        installmentAmount: inst.toFixed(2),
+        advanceAmount:     adv.toFixed(2),
         productName:       productData.title,
         itemCode:          productData.sku,
-        variantId:         productData.variantId,
-        month:             Number(selectedPlanData.noOfMonths)
+        month:             String(mths)
       }]
     };
+
+    if (areaName) {
+      payload.area = areaName;
+    }
 
     fetch(PROXY + "?action=order", {
       method: "POST",
@@ -355,31 +729,29 @@
         var successEl = document.getElementById("qist-success-msg");
         successEl.style.display = "block";
         if (isDefaulter) {
-          successEl.style.background = "#fdecea";
-          successEl.style.borderColor = "#c0392b";
+          successEl.style.background = "#fef2f2";
+          successEl.style.borderColor = "#fecaca";
           successEl.innerHTML =
-            "<h3 style='color:#c0392b;'>Order Cannot Be Processed</h3>" +
+            "<h3 style='color:#dc2626;'>Order Cannot Be Processed</h3>" +
             "<p>Sorry, your order cannot be processed for installment at this time.</p>";
         } else {
           successEl.innerHTML =
-            "<h3>✅ Order Submitted Successfully!</h3>" +
+            "<h3>Order Submitted Successfully</h3>" +
             "<p>Your installment order has been submitted to QistBazaar.</p>" +
-            "<p style='margin-top:12px;'><strong>Order ID:</strong> " + res.result.orderID + "</p>" +
-            "<p><strong>Status:</strong> " + res.result.EcibStatus + "</p>" +
-            "<p style='margin-top:12px; font-size:13px; color:#555;'>QistBazaar team will contact you for verification.</p>";
+            "<p style='margin-top:10px;'><strong>Order ID:</strong> " + escapeHtml(res.result.orderID) + "</p>" +
+            "<p><strong>Status:</strong> " + escapeHtml(res.result.EcibStatus || "Pending") + "</p>" +
+            "<p style='margin-top:12px; font-size:13px; color:#6b7280;'>The QistBazaar team will contact you shortly for verification.</p>";
         }
       } else {
-        var errEl = document.getElementById("qist-error-msg");
         errEl.style.display = "block";
-        errEl.textContent = "⚠ " + (res.error || "Order submission failed. Please try again.");
+        errEl.textContent = res.error || "Order submission failed. Please try again.";
         btn.disabled = false;
         btn.textContent = "Proceed to Checkout";
       }
     })
-    .catch(function (err) {
-      var errEl = document.getElementById("qist-error-msg");
+    .catch(function () {
       errEl.style.display = "block";
-      errEl.textContent = "⚠ Network error. Please check your connection and try again.";
+      errEl.textContent = "Network error. Please check your connection and try again.";
       btn.disabled = false;
       btn.textContent = "Proceed to Checkout";
     });

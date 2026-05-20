@@ -117,7 +117,6 @@ export default function QistBazaarCheckout() {
     if (!/^\d{13}$/.test(form.cnic)) e.cnic = "CNIC must be 13 digits (no dashes).";
     if (!form.address || form.address.trim().length < 10) e.address = "Address must be at least 10 characters.";
     if (!form.cityID) e.city = "Please select a city.";
-    if (!form.areaID) e.area = "Please select an area.";
     if (!selectedPlan) e.plan = "Please select an EMI plan.";
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -127,21 +126,39 @@ export default function QistBazaarCheckout() {
     if (!validate() || !product || !selectedPlan) return;
     setSubmitting(true);
 
-    const payload = {
-      name: form.name, email: form.email, phoneNo: form.phoneNo,
-      alternativePhoneNo: form.alternativePhoneNo, cnic: form.cnic,
-      address: form.address, city: form.city, area: form.area,
-      areaID: Number(form.areaID), productCost: Number(product.price),
-      cartDiscountTotal: 0, orderNote: "Shopify QistBazaar order",
-      orderSource: "shopify", purchaseSource: "shopify_store", couponID: null,
+    const inst = Number(selectedPlan.amountPerMonth) || 0;
+    const adv = Number(selectedPlan.advanceAmount) || 0;
+    const mths = Number(selectedPlan.noOfMonths) || 0;
+    const cartTotal = ((inst * mths) + adv).toFixed(2);
+
+    const payload: Record<string, unknown> = {
+      name: form.name,
+      email: form.email,
+      phoneNo: form.phoneNo,
+      alternativePhoneNo: form.alternativePhoneNo || "",
+      cnic: form.cnic,
+      address: form.address,
+      city: form.city,
+      productCost: String(product.price),
+      cartDiscountTotal: "0.00",
+      cartTotal,
+      orderStatus: "pending",
+      orderNote: "",
+      orderSource: "app",
+      purchaseSource: "facebook",
+      couponID: "",
       orderItems: [{
-        installmentAmount: Number(selectedPlan.amountPerMonth),
-        advanceAmount: Number(selectedPlan.advanceAmount),
+        installmentAmount: inst.toFixed(2),
+        advanceAmount: adv.toFixed(2),
         productName: product.title,
         itemCode: product.sku,
-        month: Number(selectedPlan.noOfMonths),
+        month: String(mths),
       }],
     };
+
+    // if (form.area) {
+    //   payload.area = form.area;
+    // }
 
     const res = await fetch("/apps/qistbazaar/api?action=order", {
       method: "POST",

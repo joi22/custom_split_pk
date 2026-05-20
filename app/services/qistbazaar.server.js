@@ -84,11 +84,35 @@ async function qistRequest(path, options = {}, retry = true) {
 
   if (!response.ok) {
     throw new Error(
-      data?.message || `QistBazaar API error ${response.status} on ${path}`
+      data?.message || data?.result?.message || `QistBazaar API error ${response.status} on ${path}`
+    );
+  }
+
+  if (
+    data &&
+    typeof data === "object" &&
+    !Array.isArray(data) &&
+    data.success === false
+  ) {
+    throw new Error(
+      data?.message || data?.result?.message || `QistBazaar API error on ${path}`
     );
   }
 
   return data;
+}
+
+function extractQistList(payload) {
+  if (!payload) return [];
+  if (Array.isArray(payload)) return payload;
+  if (typeof payload === "object") {
+    if (Array.isArray(payload.data)) return payload.data;
+    if (payload.data && typeof payload.data === "object" && Array.isArray(payload.data.data)) {
+      return payload.data.data;
+    }
+    if (Array.isArray(payload.result)) return payload.result;
+  }
+  return [];
 }
 
 // ─── Public API functions ────────────────────────────────────────────────────
@@ -117,7 +141,7 @@ export async function getCities() {
  */
 export async function getAreas(cityName = null) {
   const data = await qistRequest("/areas/get", { method: "GET" });
-  let areas = data?.data || [];
+  let areas = extractQistList(data);
 
   if (cityName) {
     areas = areas.filter(

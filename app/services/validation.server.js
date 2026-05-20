@@ -11,6 +11,13 @@
 export function validateQistOrder(input) {
   const errors = {};
 
+  if (!input) {
+    return {
+      valid: false,
+      errors: { _global: "Invalid request payload." }
+    };
+  }
+
   // Name
   if (!input.name || input.name.trim().length < 3) {
     errors.name = "Name is required and must be at least 3 characters.";
@@ -49,16 +56,6 @@ export function validateQistOrder(input) {
   // City
   if (!input.city || input.city.trim() === "") {
     errors.city = "City is required.";
-  }
-
-  // Area name
-  if (!input.area || input.area.trim() === "") {
-    errors.area = "Area is required.";
-  }
-
-  // Area ID
-  if (!input.areaID || Number(input.areaID) <= 0) {
-    errors.areaID = "Valid area selection is required.";
   }
 
   // Product cost

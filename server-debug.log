@@ -1,0 +1,70 @@
+[2026-05-20T11:55:21.406Z] [API Loader] Incoming request: http://gear-specialist-southwest-bikini.trycloudflare.com/apps/qistbazaar/api?action=cities&shop=upsell-store-4.myshopify.com&logged_in_customer_id=&path_prefix=%2Fapps%2Fqistbazaar&timestamp=1779278120&signature=0944406138570d82bcdc45b24ee49872f556bfb98b05957d87b99e5ec946739a
+[2026-05-20T11:55:21.415Z] [API Loader] Headers:
+{
+  "accept": "*/*",
+  "accept-encoding": "gzip",
+  "accept-language": "en",
+  "cache-control": "no-cache",
+  "cdn-loop": "cloudflare; loops=1; subreqs=2",
+  "cf-connecting-ip": "2a06:98c0:3600::103",
+  "cf-ew-via": "14",
+  "cf-ipcountry": "PK",
+  "cf-ray": "9feb26de67c1c8f4-KHI",
+  "cf-visitor": "{\"scheme\":\"https\"}",
+  "cf-warp-tag-id": "f7a3e4f2-54db-45df-8414-36d62955ee30",
+  "cf-worker": "trycloudflare.com",
+  "connection": "close",
+  "host": "gear-specialist-southwest-bikini.trycloudflare.com",
+  "pragma": "no-cache",
+  "priority": "u=1, i",
+  "referer": "https://upsell-store-4.myshopify.com/pages/qistbazaar-checkout?pb=0",
+  "sec-ch-ua": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\"",
+  "sec-ch-ua-mobile": "?0",
+  "sec-ch-ua-platform": "\"Windows\"",
+  "sec-fetch-dest": "empty",
+  "sec-fetch-mode": "cors",
+  "sec-fetch-site": "same-origin",
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+  "x-forwarded-for": "103.196.160.241,2a06:98c0:3600::103",
+  "x-forwarded-host": "upsell-store-4.myshopify.com",
+  "x-forwarded-proto": "https",
+  "x-request-id": "59def930-ecea-4a5d-92ef-6b60e4da671b-1779278119"
+}
+[2026-05-20T11:55:21.420Z] [API Loader] Environment check: QIST_BASE_URL=http://testenvironment.qist.pk/api, QIST_USERNAME=Renewdpc@gmail.com
+[2026-05-20T11:55:21.421Z] [API Loader] Shopify Env check: SHOPIFY_API_KEY=f8a6f0327327a0a8a88f93907e2e26d8, HAS_SECRET=true
+[2026-05-20T11:55:21.430Z] [API Loader] Incoming request: http://gear-specialist-southwest-bikini.trycloudflare.com/apps/qistbazaar/api?action=emi&productCost=161546&shop=upsell-store-4.myshopify.com&logged_in_customer_id=&path_prefix=%2Fapps%2Fqistbazaar&timestamp=1779278120&signature=39671bd102dceec38880222d8eb57894fd8f9cba3a30fc9de3e76e1ab73170fd
+[2026-05-20T11:55:21.431Z] [API Loader] Headers:
+{
+  "accept": "*/*",
+  "accept-encoding": "gzip",
+  "accept-language": "en",
+  "cache-control": "no-cache",
+  "cdn-loop": "cloudflare; loops=1; subreqs=2",
+  "cf-connecting-ip": "2a06:98c0:3600::103",
+  "cf-ew-via": "14",
+  "cf-ipcountry": "PK",
+  "cf-ray": "9feb26deb7cac8f4-KHI",
+  "cf-visitor": "{\"scheme\":\"https\"}",
+  "cf-warp-tag-id": "f7a3e4f2-54db-45df-8414-36d62955ee30",
+  "cf-worker": "trycloudflare.com",
+  "connection": "close",
+  "host": "gear-specialist-southwest-bikini.trycloudflare.com",
+  "pragma": "no-cache",
+  "priority": "u=1, i",
+  "referer": "https://upsell-store-4.myshopify.com/pages/qistbazaar-checkout?pb=0",
+  "sec-ch-ua": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\"",
+  "sec-ch-ua-mobile": "?0",
+  "sec-ch-ua-platform": "\"Windows\"",
+  "sec-fetch-dest": "empty",
+  "sec-fetch-mode": "cors",
+  "sec-fetch-site": "same-origin",
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+  "x-forwarded-for": "103.196.160.241,2a06:98c0:3600::103",
+  "x-forwarded-host": "upsell-store-4.myshopify.com",
+  "x-forwarded-proto": "https",
+  "x-request-id": "6c6e3204-4121-4797-a0b3-5280dbc12ba0-1779278119"
+}
+[2026-05-20T11:55:21.432Z] [API Loader] Environment check: QIST_BASE_URL=http://testenvironment.qist.pk/api, QIST_USERNAME=Renewdpc@gmail.com
+[2026-05-20T11:55:21.433Z] [API Loader] Shopify Env check: SHOPIFY_API_KEY=f8a6f0327327a0a8a88f93907e2e26d8, HAS_SECRET=true
+[2026-05-20T11:55:21.453Z] [API Loader] App Proxy authentication successful
+[2026-05-20T11:55:21.455Z] [API Loader] App Proxy authentication successful

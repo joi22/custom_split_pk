@@ -97,13 +97,49 @@ async function qistRequest(path: string, options: RequestInit = {}, retry = true
     return qistRequest(path, options, false);
   }
 
-  if (!response.ok || data?.success === false || internalError === "QB-401") {
+  if (!response.ok) {
     throw new Error(
       data?.message || data?.result?.message || `QistBazaar API error ${response.status} on ${path}`
     );
   }
 
+  // Only treat explicit API failures as errors (undefined success = OK for some endpoints)
+  if (
+    data &&
+    typeof data === "object" &&
+    !Array.isArray(data) &&
+    data.success === false
+  ) {
+    throw new Error(
+      data?.message || data?.result?.message || `QistBazaar API error on ${path}`
+    );
+  }
+
+  if (internalError === "QB-401") {
+    throw new Error(
+      data?.message || data?.result?.message || `QistBazaar API error on ${path}`
+    );
+  }
+
   return data;
+}
+
+/** Pull a list from common QistBazaar response shapes. */
+export function extractQistList(payload: unknown): unknown[] {
+  if (!payload) return [];
+  if (Array.isArray(payload)) return payload;
+
+  if (typeof payload === "object") {
+    const record = payload as Record<string, unknown>;
+    if (Array.isArray(record.data)) return record.data;
+    if (record.data && typeof record.data === "object") {
+      const nested = record.data as Record<string, unknown>;
+      if (Array.isArray(nested.data)) return nested.data;
+    }
+    if (Array.isArray(record.result)) return record.result;
+  }
+
+  return [];
 }
 
 // ─── Public API functions ────────────────────────────────────────────────────
@@ -113,10 +149,13 @@ async function qistRequest(path: string, options: RequestInit = {}, retry = true
  * @param {number|string} productCost
  */
 export async function getEmiPlans(productCost: number | string): Promise<any> {
-  return qistRequest(
-    `/emi/?productCost=${encodeURIComponent(productCost)}`,
-    { method: "GET" }
-  );
+  const cost = Math.round(Number(productCost));
+  if (!Number.isFinite(cost) || cost <= 0) {
+    throw new Error("productCost must be a positive number");
+  }
+  return qistRequest(`/emi/?productCost=${encodeURIComponent(String(cost))}`, {
+    method: "GET",
+  });
 }
 
 /**
@@ -132,7 +171,7 @@ export async function getCities(): Promise<any> {
  */
 export async function getAreas(cityName: string | null = null): Promise<any[]> {
   const data = await qistRequest("/areas/get", { method: "GET" });
-  let areas = data?.data || [];
+  let areas = extractQistList(data);
 
   if (cityName) {
     areas = areas.filter(
