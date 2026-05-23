@@ -1,8 +1,8 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "f8a6f0327327a0a8a88f93907e2e26d8"
-name = "startstorez-announcement-bar"
-application_url = "https://gear-specialist-southwest-bikini.trycloudflare.com"
+name = "renewdpc"
+application_url = "http://renewdpc.coretech.com/"
 embedded = true
 
 [build]
@@ -25,10 +25,10 @@ api_version = "2026-07"
 scopes = "write_products,write_metaobjects,write_metaobject_definitions"
 
 [auth]
-redirect_urls = [ "https://gear-specialist-southwest-bikini.trycloudflare.com/api/auth" ]
+redirect_urls = [ "http://renewdpc.coretech.com//api/auth" ]
 
 [app_proxy]
-url = "https://gear-specialist-southwest-bikini.trycloudflare.com/apps/qistbazaar"
+url = "http://renewdpc.coretech.com//apps/qistbazaar"
 subpath = "qistbazaar"
 prefix = "apps"
 
